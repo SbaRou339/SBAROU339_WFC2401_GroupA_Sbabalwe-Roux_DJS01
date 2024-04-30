@@ -14,8 +14,20 @@ const fuel = 5000; // remaining fuel (kg)
 const fbr = 0.5; // fuel burn rate (kg/s)
 
 const d2 = d + (vel*time/3600); //calculates new distance
-const rf = fbr*time; //calculates remaining fuel
+const rf = calcRemainingFuel(fuel, fbr, time); //calculates remaining fuel
 const vel2 = calcNewVel(acc, vel, time); //calculates new velocity based on acceleration
+
+// Calculate remaining fuel
+function calcRemainingFuel(fuel, fbr, time) {
+  let uf = 0;
+  if(typeof fuel !== 'number' || typeof fbr !== 'number' || typeof time !== 'number'){
+    throw new Error('Invalid input. Please provide numeric values for fuel, fuel burn rate, and time.');
+  }else{
+    uf = fbr*time;
+    return (fuel - uf);
+  }
+  
+}
 
 // Pick up an error with how the function below is called and make it robust to such errors
 function calcNewVel(vel, acc, time) {
