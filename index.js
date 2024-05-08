@@ -13,14 +13,10 @@ const d = 0; // distance (km)
 const fuel = 5000; // remaining fuel (kg)
 const fbr = 0.5; // fuel burn rate (kg/s)
 
-acc = 3 * 3.6;
-
-const d2 = d + (vel * time) / 3600; //calculates new distance
-const rf = calcRemainingFuel(fuel, fbr, time); //calculates remaining fuel
-const vel2 = calcNewVel(acc, vel, time); //calculates new velocity based on acceleration
+acc *= 3.6;
 
 // Calculate remaining fuel
-function calcRemainingFuel(fuel, fbr, time) {
+const calcRemainingFuel = (fuel, fbr, time) => {
   let uf = 0;
   if (
     typeof fuel !== "number" ||
@@ -34,10 +30,10 @@ function calcRemainingFuel(fuel, fbr, time) {
     uf = fbr * time;
     return fuel - uf;
   }
-}
+};
 
 // Pick up an error with how the function below is called and make it robust to such errors
-function calcNewVel(acc, vel, time) {
+const calcNewVel = (acc, vel, time) => {
   let v = 0;
   if (
     typeof vel !== "number" ||
@@ -54,7 +50,15 @@ function calcNewVel(acc, vel, time) {
     v = acc * time;
     return vel + v;
   }
-}
+};
+
+const calcNewDistance = (vel, time) => {
+  return vel * (time / 3600);
+};
+
+const d2 = d + calcNewDistance(vel, time); //calculates new distance
+const rf = calcRemainingFuel(fuel, fbr, time); //calculates remaining fuel
+const vel2 = calcNewVel(acc, vel, time); //calculates new velocity based on acceleration
 
 console.log(`Corrected New Velocity: ${vel2} km/h`);
 console.log(`Corrected New Distance: ${d2} km`);
